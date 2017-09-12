@@ -1,0 +1,77 @@
+@model Airgap.WebUi.Models.CheckSerialNumberViewModels
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "CheckSerialNumber";
+}
+<h2>CheckSerialNumber</h2>
+
+<div class="row">
+    @using (Html.BeginForm("Index", "CheckSerialNumber", FormMethod.Post, new { @class = "admin-passwork-box text-left", style = "padding-top: 30px;" }))
+    {
+        <div class="col-md-4 col-xs-12">
+            <div class="dashboard-serial-box">
+                <div class="admin-box ari-admin-gap-box">
+                    <h2 class="admin-title text-center">Paste New Serial Numbers Here</h2>
+                    <div class="dashboard-serial-box-content">
+                        @Html.TextAreaFor(m => m.SerialNumberInput, 10, 5, new { @class = "form-control"  })
+                        @Html.HiddenFor(m => m.SerialNumberNotExist)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <div class="dashboard-serial-box">
+                <div class="admin-box ari-admin-gap-box">
+                    <h2 class="admin-title text-center">Available Serial Numbers</h2>
+                    <div class="dashboard-serial-box-content">
+                        @if (ViewBag.SerialNumberExist != null)
+                        {
+                            @foreach (string item in ViewBag.SerialNumberNotExist)
+                            {
+                                @Html.Label(item)
+                                <br />
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <div class="dashboard-serial-box">
+                <div class="admin-box ari-admin-gap-box">
+                    <h2 class="admin-title text-center">Serial Numbers In Use</h2>
+                    <div class="dashboard-serial-box-content">
+                    @if (ViewBag.SerialNumberNotExist != null)
+                    {
+                        @foreach (string item in ViewBag.SerialNumberExist)
+                        {
+                            @Html.Label(item)
+                            <br />
+                        }
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="admin-profile-btn text-center" style="position: relative; display: inline-block; bottom: 0px;">
+            <button class="admin-btn orange">Submit</button>
+        </div>
+    }
+</div>
+@using (Html.BeginForm("Export", "CheckSerialNumber", FormMethod.Post, new { @class = "admin-passwork-box text-left", style = "padding-top: 30px;" }))
+{
+    <div class="admin-profile-btn text-center" style="position: relative; display: inline-block; bottom: 0px;">
+        <button class="admin-btn orange">export</button>
+    </div>
+}
+<script type="text/javascript">
+    function ExportSerialnumber() {
+        $.post('CheckSerialNumber/Export/', function (data) {
+            if (data.success) {
+                document.location = '/demo';
+                alert(document.location);
+            }
+        });
+    }
+</script>

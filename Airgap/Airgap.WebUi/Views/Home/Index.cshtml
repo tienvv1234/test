@@ -1,0 +1,1162 @@
+﻿@model Airgap.WebUi.Models.DashBoardViewModels
+@using Airgap.Constant
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<div class="row">
+    <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="admin-box admin-dashboard-box-1">
+            <h2 class="admin-title text-center">AirGap</h2>
+            <div class="admin-box-content">
+                <form class="admin-box-dashboard-1-content-select" id="formControll" method="post" action="/Home/ChangeAppliance">
+                    <div class="form-group">
+                        <input type="hidden" id="txtPower" name="power">
+                        <select id="ddlAppliance" name="applianceId" class="form-control admin-box-dashboard-1-content-select-list">
+                            @if (Model.lAppliance != null && Model.lAppliance.Count() > 0)
+                            {
+                                foreach (var item in Model.lAppliance)
+                                {
+                                    if (Model.SelectedAppliance.Id == item.Id)
+                                    {
+                                        <option selected value="@(item.Id)">@(item.DeviceName)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@(item.Id)">@(item.DeviceName)</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    @if (Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+                    {
+                        @if (Model.SelectedAppliance.TrustLevel != Configuration.TrustLevel_0)
+                        {
+                            @if (Model.SelectedAppliance.IsOn != null && Model.SelectedAppliance.IsOn.Value)
+                            {
+                                <div class="admin-dashboard-1-toggle">
+                                    <input type="checkbox" name="">
+                                    <div class="admin-dashboard-1-toggle-check-box">
+                                        <span class="on">
+                                            ON
+                                        </span>
+                                        <span class="off">
+                                            OFF
+                                        </span>
+                                        <span class="white"></span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="admin-dashboard-1-toggle value-on">
+                                    <input type="checkbox" name="">
+                                    <div class="admin-dashboard-1-toggle-check-box">
+                                        <span class="on">
+                                            ON
+                                        </span>
+                                        <span class="off">
+                                            OFF
+                                        </span>
+                                        <span class="white"></span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="admin-dashboard-on-off-grey">
+                                <div class="admin-dashboard-1-toggle-check-box">
+                                    <span class="on">
+                                        ON
+                                    </span>
+                                    <span class="off">
+                                        OFF
+                                    </span>
+                                    <span class="white"></span>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    else
+                    {
+                        @*<div class="admin-dashboard-on-off-grey">
+                            <div class="admin-dashboard-1-toggle-check-box">
+                                <span class="on">
+                                    ON abc
+                                </span>
+                                <span class="off">
+                                    OFF
+                                </span>
+                                <span class="white"></span>
+                            </div>
+                        </div>*@
+                        <div class="admin-box-btn-3 text-center" style="width: auto;">
+                            <button class="btn" disabled style="opacity: 1; width: auto;">ACCOUNT INACTIVE</button> <br><br>
+                        </div>
+                    }
+                    <div id="airgapIsConnect" class="admin-box-btn admin-box-btn-dashbroad text-center">
+                        <div class="toggle">
+                            <div class="toggle-group">
+                                <label class="btn btn-primary toggle-on" style="background-color: #fff; border-color: #fff; box-shadow: none !important">
+                                    @if (Model.IsApplianceConnected && Model.IsApplianceConnected && Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+                                    {
+                                        <span class="text text-1">CONNECTED</span>
+
+                                    }
+                                    else
+                                    {
+
+                                        <span class="text text-2">DISCONNECTED</span>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form class="admin-user-form-1 admin-box-dashboard-1-content-select" id="fmAirGapOn" method="post" action="/Home/SetAirGapOn">
+                    <div class="admin-user-box-1-right">
+                        <div class="form-has-text admin-user-form-has-text-Set-AirGap-Always-On">
+                            <p class="note">Set AirGap Always On:</p>
+                            <div class="form-group" style="padding-top: 0px;">
+                                <div class="ari-gap-admin-checkbox checkbox">
+                                    <input type="hidden" id="cbxAirGapOnStatus" name="cbxAirGapOnStatus" />
+                                    <label>
+                                        @if (Model.SelectedAppliance.TrustLevel != Configuration.TrustLevel_0 && Model.IsApplianceConnected && Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+                                        {
+                                            @if (Model.SelectedAppliance.TimerEnabled != null && Model.SelectedAppliance.GeoFenceEnabled != null && !Model.SelectedAppliance.GeoFenceEnabled.Value && !Model.SelectedAppliance.TimerEnabled.Value)
+                                            {
+                                                <input type="checkbox" id="cbxAirGapOn" name="cbxAirGapOn" checked />
+
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="cbxAirGapOn" name="cbxAirGapOn" />
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @if (Model.SelectedAppliance.TimerEnabled != null && Model.SelectedAppliance.GeoFenceEnabled != null && !Model.SelectedAppliance.GeoFenceEnabled.Value && !Model.SelectedAppliance.TimerEnabled.Value)
+                                            {
+                                                <input type="checkbox" id="cbxAirGapOn" name="cbxAirGapOn" disabled checked />
+
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="cbxAirGapOn" name="cbxAirGapOn" disabled />
+                                            }
+
+                                        }
+                                        <span class="cr"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="admin-box">
+            <h2 class="admin-title text-center">Geofence</h2>
+            @if (Model.SelectedAppliance.TrustLevel != Configuration.TrustLevel_0 && (Model.SelectedAppliance.Lat != 0 && Model.SelectedAppliance.Lon != 0) && Model.IsApplianceConnected && Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+            {
+                <div id="googleapi"></div>
+            }
+            else
+            {
+                <img class="geofence-img" src="~/images/geolocation.png" />
+            }
+
+            @if (Model.IsApplianceConnected && Model.SelectedAppliance.TimerEnabled != null && Model.SelectedAppliance.GeoFenceEnabled != null && !Model.SelectedAppliance.GeoFenceEnabled.Value && !Model.SelectedAppliance.TimerEnabled.Value && Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+            {
+                <div class="dashboard-map has-checked-show-text">
+                    <div class="has-checked-show-text-content">
+                        <p>AirGap Always On</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="admin-box">
+            <h2 class="admin-title text-center">Devices Home</h2>
+            <div class="dashboard-device-home">
+                <ul class="dashboard-device-home-list">
+                    @if (Model.SelectedAppliance.TrustLevel != Configuration.TrustLevel_0 && (Model.SelectedAppliance.Lat != 0 && Model.SelectedAppliance.Lon != 0))
+                    {
+                        if (Model.lAccountsDTO != null && Model.lAccountsDTO.Count() > 0)
+                        {
+                            foreach (var item in Model.lAccountsDTO)
+                            {
+                                <li id="device-@(item.Id)" style="display:none" onclick="ContainPoint(this, @(item.Lat), @(item.Lon))">
+                                    <img src="~/images/phone.png"><br />
+                                    <p>@item.FirstName (@item.PhoneNumber.Substring(item.PhoneNumber.Length - 4))</p>
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3 col-xs-12">
+        <div class="admin-box admin-dashboard-box-2 admin-dashboard-box-has-checked">
+            <h2 class="admin-title text-center">Timer</h2>
+            <div class="admin-dashboard-time has-checked-show-text">
+                <div class="admin-dashboard-time-image">
+                    @if (Model.SelectedAppliance.TimerEnabled != null && Model.SelectedAppliance.TimerEnabled.Value)
+                    {
+                        <img class="img-1" src="~/images/icon-2.png">
+
+                    }
+                    else
+                    {
+                        <img class="img-1" src="~/images/timer-2.png">
+                    }
+                </div>
+                @*@if (Model.Timer != null && Model.Timer.HasValue)
+                {
+                    <p><span class="text-red">OFF</span> until @Model.Timer.Value.ToString("hh"):00 @Model.Timer.Value.ToString("tt")</p>
+
+                }
+                else
+                {
+                    <p><span class="text-red">OFF</span></p>
+                }*@
+
+                <a class="admin-btn orange" href="/Air#scrollhere">View​ Schedule</a>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12">
+        <div class="admin-box admin-dashboard-box-2">
+            <h2 class="admin-title text-center">Home Network</h2>
+            <div class="admin-dashboard-time">
+                <div class="admin-dashboard-time-image">
+                    <ul>
+                        <li>
+                            <div class="admin-dashboard-time-image-box">
+                                <div>
+                                    @if (Model.SelectedAppliance.TrustLevel == Configuration.TrustLevel_3 && Model.IsApplianceConnected && Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+                                    {
+                                        if (Model.SelectedAppliance.WiFiInternet != null && Model.SelectedAppliance.WiFiInternet.Value) //Model.SelectedAppliance.WiFiInternet.Value
+                                        {
+                                            <img class="img-1" src="~/images/isp-blue.png">
+                                        }
+                                        else
+                                        {
+                                            <img class="img-1" src="~/images/isp.png">
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img class="img-1" src="~/images/isp.png">
+                                    }
+                                </div>
+                                <div class="admin-dashboard-time-note">
+                                    <div class="dropdown">
+                                        <button id="AdminDashboardTimeNoteLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @if (Model.SelectedAppliance.TrustLevel != null && Model.SelectedAppliance.TrustLevel.Value < Configuration.TrustLevel_3 && Model.IsApplianceConnected) //Model.SelectedAppliance.WiFiInternet.Value
+                                            {
+                                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                            }
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="AdminDashboardTimeNoteLabel">
+                                            <li>
+                                                <p>
+                                                    Your trust level is set to level @(Model.SelectedAppliance.TrustLevel) which does not allow AirGap to commnicate with ISP
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="admin-dashboard-time-image-box">
+                                <div>
+                                    @if (Model.SelectedAppliance.WiFiInternet != null && Model.SelectedAppliance.TrustLevel >= Configuration.TrustLevel_2 && Model.IsApplianceConnected && Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+                                    {
+                                        @if (Model.SelectedAppliance.Wifi.Value) //Model.SelectedAppliance.Wifi.Value
+                                        {
+                                            <img class="img-2" src="~/images/wifi-blue.png">
+                                        }
+                                        else
+                                        {
+                                            <img class="img-2" src="~/images/wifi.png">
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img class="img-2" src="~/images/wifi.png">
+                                    }
+                                </div>
+                                <div class="admin-dashboard-time-note">
+                                    <div class="dropdown">
+                                        <button id="AdminDashboardTimeNoteLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @if (Model.SelectedAppliance.TrustLevel != null && Model.SelectedAppliance.TrustLevel.Value < Configuration.TrustLevel_2 && Model.IsApplianceConnected) //Model.SelectedAppliance.WiFiInternet.Value
+                                            {
+                                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                            }
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="AdminDashboardTimeNoteLabel">
+                                            <li>
+                                                <p>
+                                                    Your trust level is set to level @(Model.SelectedAppliance.TrustLevel) which does not allow AirGap to commnicate with WIFI
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="airgapNetWork" class="admin-box-btn text-center" style="overflow: inherit;">
+                    @if (Model.SelectedAppliance.TrustLevel > 1 && Model.IsApplianceConnected)
+                    {
+                        @if (Model.SelectedAppliance.Wifi != null && Model.SelectedAppliance.Wifi.HasValue && Model.SelectedAppliance.Wifi.Value && Model.IsApplianceConnected && Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+                        {
+                            <div class="images-on-off">
+                                <img src="~/images/outlet_icon_on.png" alt="" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="images-on-off">
+                                <img src="~/images/outlet_icon_off.png" alt="" />
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12">
+        <div class="admin-box admin-dashboard-box-2">
+            <h2 class="admin-title text-center">loT Cloud</h2>
+            <div class="admin-dashboard-time">
+                <div class="admin-dashboard-time-image">
+                    @if (Model.SelectedAppliance.TrustLevel != Configuration.TrustLevel_0)
+                    {
+                        <img class="image" src="~/images/cloud.png">
+                    }
+                    else
+                    {
+                        <img class="image" src="~/images/cloudgrey.png">
+                    }
+
+                </div>
+                <div id="airgapCloud" class="admin-box-btn text-center">
+                    <div class="toggle">
+                        <div class="toggle-group">
+                            @if (Model.SelectedAppliance.TrustLevel != Configuration.TrustLevel_0)
+                            {
+                                <label class="btn btn-primary toggle-on" style="background-color: #fff; border-color: #fff; box-shadow: none !important">
+                                    @if (Model.IOTIsConnected != null && Model.IOTIsConnected.HasValue && Model.IOTIsConnected.Value)
+                                    {
+                                        <span class="text text-1">CONNECTED</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span class="text text-2">DISCONNECTED</span>
+                                    }
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12">
+        <div class="admin-box admin-dashboard-box-2">
+            <h2 class="admin-title text-center">Home Power</h2>
+            <div class="admin-dashboard-time">
+                <div class="admin-dashboard-time-image">
+                    @if (Model.SelectedAppliance.TrustLevel != Configuration.TrustLevel_0 && Model.IsApplianceConnected && Model.IsApplianceConnected && Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+                    {
+                        if (Model.SelectedAppliance.Power != null && Model.SelectedAppliance.Power.Value)
+                        {
+                            <img class="image" src="~/images/homepoweron.png">
+                        }
+                        else
+                        {
+                            <img class="image" src="~/images/off.png">
+                        }
+                    }
+                    else
+                    {
+                        <img class="image" src="~/images/homepowergrey.png">
+                    }
+
+                    @*@if (Model.SelectedAppliance.Power.Value) //Model.SelectedAppliance.Wifi.Value
+                        {
+                            <img class="image" src="~/images/homepower.png">
+
+                        }
+                        else
+                        {
+                            <img class="image" src="~/images/home.png">
+                        }*@
+                </div>
+                @*<div id="airgapPower" class="admin-box-btn text-center">
+                        <div class="toggle">
+                            <div class="toggle-group">
+                                @if (Model.SelectedAppliance.TrustLevel != Configuration.TrustLevel_0)
+                                {
+                                    <label class="btn btn-primary toggle-on">
+                                        <span class="text text-1">ON</span>
+                                        <span class="text text-2">OFF</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="LoadingImage-fullWidth">
+    <img src="~/images/ajax-loader-big.gif" />
+</div>
+
+<div class="row">
+    <div class="col-md-3 col-xs-12">
+        <div class="admin-box admin-dashboard-box-3">
+            <h2 class="admin-title text-center">Account</h2>
+            <div class="admin-dashboard-time">
+                @if (Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value && Model.ExpireDate != null && Model.ExpireDate.HasValue)
+                {
+                    <div class="admin-dashboard-time-image">
+                        <img class="image" src="~/images/store.png">
+                    </div>
+                }
+                else
+                {
+                    <div class="admin-dashboard-time-image">
+                        <img class="image" src="~/images/inactiveaccount.png">
+                    </div>
+                }
+
+                @if (Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value && Model.ExpireDate != null && Model.ExpireDate.HasValue)
+                {
+                    <p><span class="text-green">Paid</span> through @Model.ExpireDate.Value.ToString("MMMM yyyy")</p>
+                }
+                <div class="admin-box-btn-3 text-center">
+                    <button class="btn" id="btnPurchase">Purchase Service</button> <br /><br />
+                    @if (!Model.CancelAtEnd && Model.SelectedAppliance.Status != null && Model.SelectedAppliance.Status.HasValue && Model.SelectedAppliance.Status.Value)
+                    {
+                        <button class="btn" id="btnCancelService">Cancel Service</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 col-xs-12">
+        <div class="admin-box admin-dashboard-table">
+            <div class="admin-dashboard-table-header">
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                        <p class="text-left">File Logs</p>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="form-group form-group-1">
+                            <label for="dtp_input1" class="control-label">From</label>
+                            <div id="dateFrom" class="input-group date form_date1" data-date="" data-date-format="mm/dd/yyyy" data-link-field="dtp_input1" data-date-end-date="0d" data-link-format="mm/dd/yyyy">
+                                <input id="dateFrom" class="form-control input-group-addon" data-date-end-date="0d" size="16" type="text" value="">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="dtp_input1" value="" /><br />
+                        </div>
+                        <div class="form-group form-group-2">
+                            <label for="dtp_input2" class="control-label">To</label>
+                            <div class="input-group date form_date2" data-date="" data-date-format="mm/dd/yyyy" data-link-field="dtp_input2" data-link-format="mm/dd/yyyy">
+                                <input id="dateTo" class="form-control input-group-addon" size="16" type="text" value="">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="dtp_input2" value="" /><br />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <div class="admin-dashboard-table-header-right text-right">
+                            <a href="#" id="export" class="btn">Download Logs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody style="width: 100%">
+                        <tr>
+                            <td>Timestamp</td>
+                            <td>User</td>
+                            <td>Action</td>
+                            <td>Change</td>
+                        </tr>
+                        @if (Model.lEvent != null && Model.lEvent.Count() > 0)
+                        {
+                            foreach (var item in Model.lEvent)
+                            {
+                                <tr>
+                                    <td class="dateTimeUtc">@(item.Timestamp != null && item.Timestamp.HasValue ? item.Timestamp.Value.ToString("dd/MM/yyyy hh:mm:ss tt") : string.Empty)</td>
+                                    <td>@(item.Account != null ? (item.Account.IsAdmin.HasValue && item.Account.IsAdmin.Value ? Configuration.Administrator : item.Account.PhoneNumber) : Model.SelectedAppliance.DeviceName + "(" + Model.SelectedAppliance.SerialNumber.Substring(Model.SelectedAppliance.SerialNumber.Length - 4) + ")")</td>
+                                    @*<td>@(item.Account != null ? (item.Account.IsAdmin.HasValue && item.Account.IsAdmin.Value ? Configuration.Administrator : item.Account.PhoneNumber) : Model.SelectedAppliance.DeviceName)</td>*@
+                                    <td>@item.EventType.EventTypeName</td>
+                                    <td>@item.Message</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalAirgapPayWall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">
+                    Select an AirGap service plan to get started<br>
+                    using the AirGap system.
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label style="font-size: 16px; color: #4a4a4a; font-family: 'Lato', sans-serif; font-weight: bold;">Promo Code</label>
+                    <input type="text" id="coupon" name="coupon" class="form-control" placeholder="Coupon">
+                    <div id="divResultCoupon" class="text-danger"><div id="divResultCouponText"></div></div>
+                    @*<div id="divSuccessCoupon" class="text-success"><div id="divSuccessCouponText"></div></div>*@
+                    <div id="LoadingImage">
+                        <img src="~/images/ajax-loader.gif" />
+                    </div>
+                    <button class="paymall-list-apple-btn" id="btnApplyCoupOn">APPLY</button>
+                </div>
+                @if (Model.lPlan != null && Model.lPlan.Count > 0)
+                {
+                    <div id="plans">
+                        @foreach (var item in Model.lPlan)
+                        {
+                            <div class="paymall-checkbox">
+                                <label>
+                                    <input type="radio" name="planId" value="@(item.Id)" id="@(item.Name)">
+                                    <span class="paymall-checkbox-content"></span>
+                                    <span class="text">@(item.Name)/$@(Convert.ToDecimal(item.Amount / 100m))</span>
+                                    <span class="text percentoff" id="@(item.Id.Replace(" ", "_"))"></span>
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div id="divResultCbxPlan" class="text-danger"><div id="divResultCbxPlanText"></div></div>
+                }
+
+                <div class="form-group">
+                    <label style="font-size: 16px; color: #4a4a4a; font-family: 'Lato', sans-serif; font-weight: bold;">Payment Method</label>
+                    <input type="text" id="nameOnCard" name="nameOnCard" class="form-control" placeholder="Name on Card">
+                    <div id="divResultNameOnCard" class="text-danger"><div id="divResultNameOnCardText"></div></div>
+                </div>
+                <div class="form-group notare">
+                    <input type="number" id="cc_number" max="9999999999999999" min="0" name="cc_number" class="form-control" placeholder="Card Number" style="-webkit-appearance: none; margin: 0;">
+                    <div id="divResultCC_number" class="text-danger"><div id="divResultCC_numberText"></div></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-xs-12">
+                        <div class="form-group">
+                            <input type="number" id="expireMonth" name="expireonth" class="form-control" placeholder="MM" min="0" max="99">
+                            <div id="divResultExpireMonth" class="text-danger"><div id="divResultExpireMonthText"></div></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <div class="form-group">
+                            <input type="number" id="expireYear" name="expireYear" min="0" max="9999" class="form-control" placeholder="YYYY">
+                            <div id="divResultExpireYear" class="text-danger"><div id="divResultExpireYearText"></div></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <div class="form-group notare">
+                            <input type="number" id="ccvCode" min="0" max="9999" name="ccvCode" class="form-control" placeholder="CVV">
+                            <div id="divResultCCVCode" class="text-danger"><div id="divResultCCVCodeText"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divSuccess" class="text-success"><div id="divSuccessText"></div></div>
+                <div id="divError" class="text-danger"><div id="divErrorText"></div></div>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <div id="LoadingImagePurchase">
+                        <img src="~/images/ajax-loader.gif" />
+                    </div>
+                    <button class="admin-btn orange" id="btnPurchasePlan">Purchase</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-note-text" id="ModalPaymentSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p id="pMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <button type="button" id="btnOK" class="admin-btn orange" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-note-text" id="ModalCancelSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p id="cMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <button type="button" id="btnOK" class="admin-btn orange" data-dismiss="modal" onClick="window.location.reload()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+@if (Model.SelectedAppliance.TrustLevel != Configuration.TrustLevel_0 && (Model.SelectedAppliance.Lat != 0 && Model.SelectedAppliance.Lon != 0))
+{
+    <script defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_ovCuVajlgcgipnnbf4drqtOEf9ZxV5M&callback=initMap">
+    </script>
+}
+
+<script>
+
+    var statusAirGap = "@(Model.IOTIsConnected.Value)";
+    var statusHomePower = "@(Model.SelectedAppliance.Power != null && Model.SelectedAppliance.Power.HasValue ? Model.SelectedAppliance.Power.Value : false)";
+    var statusHomeNetwork = "@(Model.SelectedAppliance.Wifi != null && Model.SelectedAppliance.Wifi.HasValue ? Model.SelectedAppliance.Wifi.Value : false)";
+    var statusIOTClound = "@(Model.IOTIsConnected != null ? Model.IOTIsConnected.Value : false)";
+    var statusIsApplianceConnected = "@(Model.IsApplianceConnected)";
+    var statusAirGapAlwayOn = "@(Model.SelectedAppliance.GeoFenceEnabled != null && Model.SelectedAppliance.TimerEnabled != null ? !Model.SelectedAppliance.GeoFenceEnabled.Value && !Model.SelectedAppliance.TimerEnabled.Value : false)";
+    $(document).ready(function () {
+
+        $('#btnApplyCoupOn').click(function () {
+            var coupon = $('#coupon').val();
+            if (!coupon) {
+                $('#divResultCouponText').text('Coupon is required');
+                $('#divResultCoupon').show('fade');
+                return false;
+            } else {
+                $('#divResultCoupon').hide('fade');
+            }
+
+            $("#LoadingImage").show();
+            $.ajax({
+                type: 'POST',
+                url: '/Home/CheckCoupon',
+                data: {
+                    coupon: $('#coupon').val()
+                },
+                success: function (response) {
+                    $("#LoadingImage").hide();
+                    if (response.success === "1") {
+                        if (response.plan) {
+                            //$('#divSuccessCouponText').text(response.responseText);
+                            //$('#divSuccessCoupon').show('fade');
+                            $('#divResultCoupon').hide('fade');
+                            for (var i = 0; i < response.plan.length; i++) {
+                                var planId = response.plan[i].id;
+                                if (response.percentOff) {
+                                    $('#' + planId.replace(/ /g, "_")).text("-->" + response.percentOff + "%" + "-->" + "$" + (response.plan[i].amount / 100).toFixed(2));
+                                } else {
+                                    $('#' + planId.replace(/ /g, "_")).text("-->" + "$" + (response.plan[i].amount / 100).toFixed(2));
+                                    //$" + (response.amountOff / 100).toFixed(2) + "-- > "
+                                }
+
+                            }
+                        } else {
+                            $('#divResultCouponText').text('Coupon is Invalid');
+                            $('#divResultCoupon').show('fade');
+                            //$('#divSuccessCoupon').hide('fade');
+                        }
+                    } else {
+                        $('#divResultCouponText').text(response.responseText);
+                        $('#divResultCoupon').show('fade');
+                        $('#divSuccess').hide('fade');
+                    }
+                }
+            });
+        })
+
+        $('#btnPurchasePlan').click(function () {
+            $('#cc_number').val().trim();
+            $('#nameOnCard').val().trim();
+            $('#cc_number').val($('#cc_number').val().replace(/\s/g, ""));
+            $('#ccvCode').val($('#ccvCode').val().replace(/\s/g, ""));
+            var requiredPlan = false;
+            var PlanId = null;
+            // Loop through available sets
+            $('#plans').each(function () {
+                if (!$(this).find('input').is(':checked')) {
+                    // Didn't validate ... dispaly alert or do something
+                    PlanId = $(this).val();
+                    $('#divResultCbxPlanText').text('Please Select Your Plan');
+                    $('#divResultCbxPlan').show('fade');
+                    requiredPlan = false;
+                } else {
+                    requiredPlan = true;
+                    $('#divResultCbxPlan').hide('fade');
+                }
+            });
+
+            var expireMonth = $('#expireMonth').val();
+            var expireYear = $('#expireYear').val();
+            var ccvCode = $('#ccvCode').val();
+            var nameOnCard = $('#nameOnCard').val();
+            var cc_number = $('#cc_number').val();
+            var isCreditCardValid = false;
+
+            today = new Date();
+            someday = new Date();
+            someday.setFullYear(expireYear, expireMonth, 1);
+
+            if (!requiredPlan) {
+                return false;
+            }
+
+            if (!nameOnCard) {
+                $('#divResultNameOnCardText').text('Name On Card is required');
+                $('#divResultNameOnCard').show('fade');
+                return false;
+            } else {
+                $('#divResultNameOnCard').hide('fade');
+            }
+
+            if (!expireMonth) {
+                $('#divResultExpireMonthText').text('MM is required');
+                $('#divResultExpireMonth').show('fade');
+                return false;
+            } else {
+                $('#divResultExpireMonth').hide('fade');
+            }
+
+            if (!expireYear) {
+                $('#divResultExpireYearText').text('YYYY is required');
+                $('#divResultExpireYear').show('fade');
+                return false;
+            } else {
+                $('#divResultExpireYear').hide('fade');
+            }
+
+            if (!ccvCode) {
+                $('#divResultCCVCodeText').text('CVV Code is required');
+                $('#divResultCCVCode').show('fade');
+                return false;
+            } else {
+                $('#divResultCCVCode').hide('fade');
+            }
+
+            if (!cc_number) {
+                $('#divResultCC_numberText').text('Card Number is required');
+                $('#divResultCC_number').show('fade');
+                return false;
+            } else {
+                $('#divResultCC_number').hide('fade');
+            }
+
+            $('#cc_number').validateCreditCard(function (result) {
+                if (result.length_valid && result.luhn_valid) {
+                    isCreditCardValid = true;
+                }
+            });
+
+            if (someday < today) {
+                alert("The expiry date is before today's date. Please select a valid expiry date");
+                return false;
+            }
+
+            if (!isCreditCardValid){
+                $('#divResultCC_numberText').text('Card Number is not valid');
+                $('#divResultCC_number').show('fade');
+                return false;
+            }
+
+            $("#LoadingImagePurchase").show();
+            $.ajax({
+                type: 'POST',
+                url: '/Home/Purchase',
+                data: {
+                    planId: $("input[type='radio']:checked").val(),
+                    nameOnCard: $('#nameOnCard').val(),
+                    cc_number: $('#cc_number').val(),
+                    expireMonth: $('#expireMonth').val(),
+                    expireYear: $('#expireYear').val(),
+                    ccvCode: $('#ccvCode').val(),
+                    coupon: $('#coupon').val()
+                },
+                success: function (response) {
+                    $("#LoadingImagePurchase").hide();
+                    if (response.success === '1') {
+                        $('#ModalPaymentSuccess').modal('show');
+                        $('#pMessage').html(response.responseText);
+                        $('#divError').hide('fade');
+                    } else {
+                        $('#divErrorText').text(response.responseText);
+                        $('#divError').show('fade');
+                        $('#divSuccess').hide('fade');
+                    }
+                },
+                error: function (jqXHR) {
+                    $('#divResultText').text(jqXHR.responseText)
+                    $('#divResult').text(response.responseText).removeClass('alert-success');
+                    $('#divResult').text(response.responseText).addClass('alert-danger');
+                    $('#divResult').show('fade');
+                }
+            });
+        })
+
+        $('#btnOK').click(function () {
+            resetAllValues();
+            $('#ModalAirgapPayWall').modal('hide');
+        });
+
+        $('#btnPurchase').click(function () {
+            resetAllValues();
+            $('#ModalAirgapPayWall').modal('show');
+        });
+
+        $('#btnCancelService').click(function () {
+            $("#LoadingImage-fullWidth").show();
+            $.ajax({
+                type: 'POST',
+                url: '/Home/CancelSubscription',
+                success: function (response) {
+                    $("#LoadingImage-fullWidth").hide();
+                    $('#cMessage').html(response.responseText);
+                    $('#ModalCancelSuccess').modal('show');
+                }
+            });
+        });
+
+
+        ConvertUtcToClient();
+
+        var arryDeviceHome = $('*[id^="device"]');
+        if (@Model.SelectedAppliance.TrustLevel != @Configuration.TrustLevel_0 && (@Model.SelectedAppliance.Lat != 0 && @Model.SelectedAppliance.Lon != 0)) {
+            var googleapi = $('#googleapi').innerWidth() - 50;
+            $('#googleapi').css('height', googleapi);
+            $('.dashboard-device-home').css('min-height', googleapi);
+            $('.admin-box-content').css('min-height', googleapi);
+            $('.has-checked-show-text-content').css('min-height', googleapi);
+            $('.has-checked-show-text-content').css('top', -googleapi);
+        }
+
+        arryDeviceHome.each(function (index) {
+            $(this).click();
+        });
+
+        if (statusAirGap.toLowerCase() == "false") {
+            $("#airgapIsConnect").addClass("admin-box-btn-off");
+        }
+
+        if (statusHomePower.toLowerCase() == "false") {
+            $("#airgapPower").addClass("admin-box-btn-off");
+        }
+
+        if (statusHomeNetwork.toLowerCase() == "false") {
+            $("#airgapNetWork").addClass("admin-box-btn-off");
+        }
+
+        if (statusIOTClound.toLowerCase() == "false") {
+            $("#airgapCloud").addClass("admin-box-btn-off");
+        }
+
+        if (statusAirGapAlwayOn.toLowerCase() == "true") {
+            $(".has-checked-show-text-content").show();
+        }
+
+        $("#dateFrom").change(function () {
+            var date = Date.parse($("#dtp_input1").val())
+            if ($("#dtp_input1").val().length == 10 && date) {
+                fillerDateFromAndDateto($("#dtp_input1").val(), $("#dtp_input2").val())
+            }
+        });
+
+        $('#dateFrom').keypress(function (e) {
+            return false
+        });
+
+        $("#dateTo").change(function () {
+            var date = Date.parse($("#dtp_input2").val())
+            if ($("#dtp_input2").val().length == 10 && date) {
+                fillerDateFromAndDateto($("#dtp_input1").val(), $("#dtp_input2").val())
+            }
+        });
+
+        $('#dateTo').keypress(function (e) {
+            return false
+        });
+
+        function compareDate(str1, isDateTo) {
+            // str1 format should be dd/mm/yyyy. Separator can be anything e.g. / or -. It wont effect
+            var mon1 = parseInt(str1.substring(0, 2));
+            var dt1 = parseInt(str1.substring(3, 5));
+            var yr1 = parseInt(str1.substring(6, 10));
+            
+            if (isDateTo) {
+                var date1 = new Date(yr1, mon1 - 1, dt1, 23, 59, 59);
+                return date1;
+            } else {
+                var date1 = new Date(yr1, mon1 - 1, dt1, 0, 0, 0);
+                return date1;
+            }
+            
+        }
+
+        function fillerDateFromAndDateto(datefrom, dateto) {
+            var timezone_local = moment.tz.guess();
+            var from = moment.utc(compareDate(datefrom, false), "DD/MM/YYYY hh:mm:ss A");
+            var to = moment.utc(compareDate(dateto, true), "DD/MM/YYYY hh:mm:ss A");
+            $.ajax({
+                type: "Post",
+                url: "/Home/Filler",
+                data: {
+                    datefrom: from.format('MM/DD/YYYY hh:mm:ss A'),
+                    dateTo: to.format('MM/DD/YYYY hh:mm:ss A')
+                },
+                success: function (response) {
+                    $(".table tr").remove();
+                    var $table1 = $('.table');
+
+                    var contents = response.data; // store the returned array in a variable
+                    // loop through the array and build up the HTML for the new row.
+                    // there are much better ways to do this, but I can't think of them right now...
+                    var html = '';
+                    html += '<td>Timestamp (GMT)</td>';
+                    html += '<td>User</td>';
+                    html += '<td>Action</td>';
+                    html += '<td>Change</td>';
+                    var $newRow = $('<tr></tr>').append(html).appendTo($table1);
+                    html = "";
+                    for (var i = 0; i < contents.length; i++) {
+                        html += '<td class="dateTimeUtc">' + contents[i][0] + '</td>';
+                        html += '<td>' + contents[i][1] + '</td>';
+                        html += '<td>' + contents[i][2] + '</td>';
+                        html += '<td>' + contents[i][3] + '</td>';
+                        var $newRow = $('<tr></tr>').append(html).appendTo($table1);
+                        html = "";
+                    }
+                    // add the new row to the table
+                    ConvertUtcToClient();
+                }
+            });
+        }
+
+        function resetAllValues() {
+            $('#divResultCoupon').hide('fade');
+            //$('#divSuccessCoupon').hide('fade');
+            $('#divResultCC_number').hide('fade');
+            $('#divResultCCVCode').hide('fade');
+            $('#divResultExpireYear').hide('fade');
+            $('#divResultExpireMonth').hide('fade');
+            $('#divResultNameOnCard').hide('fade');
+            $('#divResultCbxPlan').hide('fade');
+            $('#divSuccess').hide('fade');
+            $('#divError').hide('fade');
+            $('#ModalAirgapPayWall').find('input:text').val('');
+            $('#ModalAirgapPayWall').find('input:radio').prop('checked', false);
+            $('#ModalAirgapPayWall').find('span.text.percentoff').text('');
+        }
+
+        function exportTableToCSV($table, filename) {
+
+            var $rows = $table.find('tr:has(td)'),
+
+                // Temporary delimiter characters unlikely to be typed by keyboard
+                // This is to avoid accidentally splitting the actual contents
+                tmpColDelim = String.fromCharCode(11), // vertical tab character
+                tmpRowDelim = String.fromCharCode(0), // null character
+
+                // actual delimiter characters for CSV format
+                colDelim = '","',
+                rowDelim = '"\r\n"',
+
+                // Grab text from table into CSV formatted string
+                csv = '"' + $rows.map(function (i, row) {
+                    var $row = $(row),
+                        $cols = $row.find('td');
+
+                    return $cols.map(function (j, col) {
+                        var $col = $(col),
+                            text = $col.text();
+
+                        return text.replace(/"/g, '""'); // escape double quotes
+
+                    }).get().join(tmpColDelim);
+
+                }).get().join(tmpRowDelim)
+                    .split(tmpRowDelim).join(rowDelim)
+                    .split(tmpColDelim).join(colDelim) + '"';
+
+            // Deliberate 'false', see comment below
+            if (false && window.navigator.msSaveBlob) {
+
+                var blob = new Blob([decodeURIComponent(csv)], {
+                    type: 'text/csv;charset=utf8'
+                });
+
+                // Crashes in IE 10, IE 11 and Microsoft Edge
+                // See MS Edge Issue #10396033
+                // Hence, the deliberate 'false'
+                // This is here just for completeness
+                // Remove the 'false' at your own risk
+                window.navigator.msSaveBlob(blob, filename);
+
+            } else if (window.Blob && window.URL) {
+                // HTML5 Blob
+                var blob = new Blob([csv], {
+                    type: 'text/csv;charset=utf-8'
+                });
+                var csvUrl = URL.createObjectURL(blob);
+
+                $(this)
+                    .attr({
+                        'download': filename,
+                        'href': csvUrl
+                    });
+            } else {
+                // Data URI
+                var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+
+                $(this)
+                    .attr({
+                        'download': filename,
+                        'href': csvUrl,
+                        'target': '_blank'
+                    });
+            }
+        }
+
+        // This must be a hyperlink
+        $("#export").on('click', function (event) {
+            // CSV
+            var args = [$('.table'), 'export.csv'];
+
+            exportTableToCSV.apply(this, args);
+
+            // If CSV, don't do event.preventDefault() or return false
+            // We actually need this to be a typical hyperlink
+        });
+
+        //$("#export").click(function (e) {
+        //    window.open('data:application/vnd.ms-excel,' + $('.table').html());
+        //    e.preventDefault();
+        //});
+    });
+
+
+    function initMap() {
+        if (@Model.SelectedAppliance.TrustLevel != @Configuration.TrustLevel_0 && (@Model.SelectedAppliance.Lat != 0 && @Model.SelectedAppliance.Lon != 0) && statusIsApplianceConnected.toLowerCase() == "true") {
+            // Create the map.
+            var map = new google.maps.Map(document.getElementById('googleapi'), {
+                zoom: 12,
+                center: { lat: @Model.SelectedAppliance.Lat, lng: @Model.SelectedAppliance.Lon },
+                mapTypeId: 'terrain'
+            });
+
+            var marker = new google.maps.Marker({
+                position: map.center,
+                map: map,
+                title: 'Device Home'
+            });
+
+            // Construct the circle for each value in citymap.
+            // Note: We scale the area of the circle based on the population.
+            var positionCircle = new google.maps.Circle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: map,
+                center: map.center,
+                radius: getMeters(@Model.SelectedAppliance.TriggerMile),
+            });
+
+            return positionCircle;
+        }
+    }
+
+    function ContainPoint(device, lat, lon) {
+        if (@Model.SelectedAppliance.TrustLevel != @Configuration.TrustLevel_0 && (@Model.SelectedAppliance.Lat != 0 && @Model.SelectedAppliance.Lon != 0) && statusIsApplianceConnected.toLowerCase() == "true") {
+            markerCPosition = new google.maps.LatLng(lat, lon);
+            var circleBounds = initMap().getBounds();
+            if (!circleBounds.contains(markerCPosition)) {
+                $(device).hide(true);
+            } else {
+                $(device).show(true);
+            }
+        }
+    }
+
+    //var rad = function (x) {
+    //    return x * Math.PI / 180;
+    //};
+
+    //var getDistance = function (p1, p2) {
+    //    var R = 6378137; // Earth’s mean radius in meter
+    //    var dLat = rad(p2.lat - p1.lat);
+    //    var dLong = rad(p2.lng - p1.lng);
+    //    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    //        Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
+    //        Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    //    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    //    var d = R * c;
+    //    return d; // returns the distance in meter
+    //};
+
+    function getMiles(i) {
+        return i * 0.000621371192;
+    }
+
+    function getMeters(i) {
+        return i * 1609.344;
+    }
+
+    function ConvertUtcToClient($parent) {
+        $parent = $parent ? $parent : $(document);
+        $parent.find(".dateTimeUtc").each(function () {
+            if ($(this).text() !== "") {
+                $(this).text(moment.utc($(this).text(), "DD/MM/YYYY hh:mm:ss A").local().format("YYYY/MM/DD hh:mm:ss A"));
+
+            }
+            if ($(this).is("input") && $(this).val()) {
+                $(this).val(moment.utc($(this).val(), "DD/MM/YYYY hh:mm:ss A").local().format("YYYY/MM/DD hh:mm:ss A"));
+            }
+            $(this).removeClass("dateTimeUtc");
+        });
+    }
+
+</script>
+
+<script type="text/javascript" src="~/js/jquery.creditCardValidator.js"></script>
+
+

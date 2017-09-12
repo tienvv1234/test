@@ -1,0 +1,123 @@
+﻿@model Airgap.WebUi.Models.SignupViewModels
+@using Airgap.Constant;
+@{
+    Layout = "_LayoutLogin";
+    ViewData["Title"] = "Home Page";
+}
+<div class="admin-sign-content">
+<div class="admin-sign-tabs">
+    <ul class="nav nav-tabs text-center">
+        <li class="active"><a data-toggle="tab" href="#sign-up">Sign Up</a></li>
+        <li><a data-toggle="tab" href="#sign-in">Sign In</a></li>
+    </ul>
+</div>
+<div class="admin-sign-tab-content">
+    <div class="tab-content">
+        <div id="sign-up" class="tab-pane fade in active">
+            @*<form method="post" action="Signup">*@
+                @using (Html.BeginForm("Signup", "Login", FormMethod.Post))
+                {
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            @*<input name="firstName" id="txtFirstName" type="text" class="form-control" placeholder="First Name">*@
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
+                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                            @*<div id="divResultFirstNameSignUp" class="alert alert-danger collapse"><div id="divResultFirstNameSignUpText"></div></div>*@
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            @*<input name="lastName" id="txtLastName" type="text" class="form-control" placeholder="Last Name">*@
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "LastName" })
+                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                            @*<div id="divResultLastNameSignUp" class="alert alert-danger collapse"><div id="divResultLastNameSignUpText"></div></div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @*<input name="email" id="txtEmailSignUp" type="email" class="form-control" placeholder="Email">*@
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            @if (ViewBag.MessageError != null)
+                            {
+                                <p class="text-danger">
+                                    @ViewBag.MessageError
+                                </p>
+                            }
+                            @*<div id="divResultEmailSignUp" class="alert alert-danger collapse"><div id="divResultEmailSignUpText"></div></div>
+                            <div id="divResultEmailIsExist" class="alert alert-danger collapse"><div id="divResultEmailIsExistText"></div></div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <button class="admin-btn orange" id="btnSignUp">Sign Up</button>
+                </div>
+                <div class="or">
+                    <p>or</p>
+                </div>
+                <div class="admin-sign-btn admin-sign-btn-blue">
+                    <input id="login" type="button" class="admin-btn blue" value="Sign In With Facebook" onclick="loginfacebook()" />
+                </div>
+                }
+            @*</form>*@
+        </div>
+        <div id="sign-in" class="tab-pane fade">
+            <form method="post" action="Signin">
+                <div class="form-group">
+                    <input id="txtEmail" name="email" type="email" class="form-control" placeholder="Email">
+                    <div id="divResultEmailSignIn" class="alert alert-danger collapse"><div id="divResultEmailSignInText"></div></div>
+                </div>
+
+                <div class="form-group">
+                    <input id="txtPassword" name="password" type="password" class="form-control" placeholder="Password">
+                    <div id="divResultPassword" class="alert alert-danger collapse"><div id="divResultPasswordText"></div></div>
+                </div>
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <button class="admin-btn orange" id="btnSignin">Sign In</button>
+                </div>
+                <div class="or">
+                    <p>or</p>
+                </div>
+                <div class="admin-sign-btn admin-sign-btn-blue">
+                    <input id="login" type="button" class="admin-btn blue" value="Sign In With Facebook" onclick="loginfacebook()" />
+                </div>
+                <div class="text-btn">
+                    <p>Forgotten Password? <a href="./ForgotPassword">Click here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade modal-note-text" id="ModalSignUpsuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                Thanks for signing up! Please check your
+                <br />email to set up your password.
+            </div>
+            <div class="modal-footer">
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <a href="@Url.Action("Signin", "Login")" class="admin-btn orange">OK</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var IsSuccess = "@(ViewBag.Message)";
+    $(document).ready(function () {
+        if (IsSuccess.toLowerCase() == "success") {
+            $("#ModalSignUpsuccess").modal("show");
+        }
+    });
+
+</script>

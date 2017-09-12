@@ -1,0 +1,38 @@
+@model Airgap.WebUi.Models.SignupViewModels
+@{
+    ViewData["Title"] = "UpdateInformation";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="admin-sign-content admin-passwork-content">
+    <div class="admin-passwork">
+        <h2 class="title information-title">Complete Registration Information</h2>
+        <div class="text-btn">
+            <p style="margin-bottom: 25px;">Please review and provide any missing information to complete sign up</p>
+        </div>
+    </div>
+    @using (Html.BeginForm("UpdateInformation", "Login", FormMethod.Post))
+    {
+        <div class="row" style="margin-left: -10px; margin-right: -10px;">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "LastName" })
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="admin-sign-btn admin-sign-btn-set-passwork">
+            <button class="admin-btn orange" id="btnSignUp">Sign Up</button>
+        </div>
+    }
+</div>

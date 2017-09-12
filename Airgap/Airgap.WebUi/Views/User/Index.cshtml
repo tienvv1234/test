@@ -1,0 +1,166 @@
+﻿@model Airgap.WebUi.Models.UserViewModels
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="admin-box">
+            <form class="admin-profile-form-1 admin-box-dashboard-1-content-select" id="formControll" method="post" action="/User/ChangeAppliance">
+                <div class="form-has-text">
+                    <p class="note">Airgap Device</p>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <select id="ddlApplianceUser" name="applianceId" class="form-control admin-box-dashboard-1-content-select-list">
+                                @if (Model.lAppliance != null && Model.lAppliance.Count() > 0)
+                                {
+                                    foreach (var item in Model.lAppliance)
+                                    {
+                                        if (Model.SelectedAppliance.Id == item.Id)
+                                        {
+                                            <option selected value="@(item.Id)">@(item.DeviceName)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@(item.Id)">@(item.DeviceName)</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-sm-12 col-xs-12">
+        <div class="admin-box ari-admin-gap-box">
+            <div class="admin-user-table">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">User</th>
+                                <th>Device Name</th>
+                                <th>Phone Number</th>
+                                <th>Verified</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.lAccount != null && Model.lAccount.Count() > 0)
+                            {
+                                foreach (var item in Model.lAccount)
+                                {
+                                    <tr>
+                                        <td>@item.FirstName</td>
+                                        <td>@item.LastName</td>
+                                        <td>@item.DeviceName</td>
+                                        <td>@item.PhoneNumber</td>
+                                        <td>@(item.IsVerifiedMobile == true ? "Yes" : "No")</td>
+                                        <td>
+                                            <a href="#" class="admin-user-table-icon"><span class="glyphicon glyphicon-trash" aria-hidden="true" onclick="OpenConfirmDlg('@(item.Id)')"></span></a>
+                                            <a href="#" class="admin-user-table-icon"><span class="glyphicon glyphicon-edit" aria-hidden="true" onclick="showUserEditor('@(item.FirstName)', '@(item.LastName)', '@(item.IsVerifiedMobile)', @(item.Id))"></span></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-note-text" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Index", "User", FormMethod.Post, new { @class = "admin-profile-box-1" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", maxlength = "50", placeholder = "First Name" })
+                                    @Html.HiddenFor(m => m.hdAccountId)
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", maxlength = "50", placeholder = "Last Name" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-has-text" style="margin-top: 20px; padding-left: 150px;">
+                        <p class="note">Verify :</p>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12">
+                                <div class="form-group" style="margin-top: 0px;">
+                                    @Html.DropDownListFor(Model => Model.Verify, new[] { new SelectListItem { Text = "Yes", Value = "True" }, new SelectListItem { Text = "No", Value = "False" } }, new { @class = "form-control admin-box-dashboard-1-content-select-list" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-profile-btn text-center">
+                        <button class="admin-btn orange">Save Changes</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-note-text" id="ModalConfirmDeletion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                Would you like to delete this Account?
+            </div>
+            <div class="modal-footer">
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <input type="hidden" id="accountId" />
+                    <button type="button" class="admin-btn orange" data-dismiss="modal" onclick="deleteAccount()">Delete</button>
+                    <button type="button" class="admin-btn orange" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showUserEditor(firstName, lastName, verify, id) {
+        $('#FirstName').val(firstName);
+        $('#LastName').val(lastName);
+        $("#Verify").val(verify);
+        $("#hdAccountId").val(id);
+        $("#Modal").modal('show');
+    };
+
+    $('#DeleteSerialNumber').click(function () {
+        $('#ModalConfirmDeletion').modal("show");
+    });
+
+    function OpenConfirmDlg(id) {
+        $("#accountId").val(id)
+        $("#ModalConfirmDeletion").modal('show')
+    }
+
+    function deleteAccount() {
+        $.post('User/DeleteUser', { accountId: $("#accountId").val() }, function (data) {
+            if (data.success) window.location.reload();
+        });
+    }
+</script>

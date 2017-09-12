@@ -1,0 +1,109 @@
+﻿@model Airgap.WebUi.Models.ProfileViewModels
+@{
+    ViewData["Title"] = "Profile";
+}
+<div class="row">
+    <div class="col-md-8 col-sm-12 col-xs-12">
+        <div class="admin-box ari-admin-gap-box">
+            <h2 class="admin-title">Administrator</h2>
+            <div class="admin-profile-box-1">
+                @using (Html.BeginForm("Index", "Profile", FormMethod.Post, new { @class = "admin-profile-box-1" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-has-text">
+                        <p class="note">Name:</p>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", maxlength = "50", placeholder = "First Name" })
+                                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", maxlength = "50", placeholder = "Last Name" })
+                                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-has-text">
+                        <p class="note">Email Address:</p>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", maxlength = "50", placeholder = "Email", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-profile-btn text-center">
+                        <button class="admin-btn orange">Save Changes</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="admin-box ari-admin-gap-box">
+            <h2 class="admin-title">Change Password</h2>
+            <div class="admin-profile-box-2">
+                @using (Html.BeginForm("ChangePassword", "Profile", FormMethod.Post, new { Id = "frmChangePassword", @class = "admin-profile-form-2" }))
+                {
+                    <div id="divResultPasswordIsNotCorrect" class="text-danger"><div id="divResultPasswordIsNotCorrectText"></div></div>
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.ExistingPassword, new { @class = "form-control", maxlength = "50", placeholder = "Existing Password" })
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control", maxlength = "50", placeholder = "New Password" })
+                        <div id="divResultNewPassword" class="text-danger"><div id="divResultNewPasswordText"></div></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.ReTypePassword, new { @class = "form-control", maxlength = "50", placeholder = "Re-Type New Password" })
+                        <div id="divResultReTypePassword" class="text-danger"><div id="divResultReTypePasswordText"></div></div>
+                    </div>
+                    <div class="admin-profile-btn text-center">
+                        <button class="admin-btn orange" id="btnPasswordChange">Save Changes</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-note-text" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                Change Password Successfull.
+            </div>
+            <div class="modal-footer">
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <button type="button" class="admin-btn orange" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var isPasswordCorrect = "@(ViewBag.PasswordIsNotCorrect != null ? ViewBag.PasswordIsNotCorrect : null)";
+    var ChangePassSuccessfull = "@(ViewBag.ChangePassSuccessfull != null ? ViewBag.ChangePassSuccessfull : null)"
+    $(document).ready(function () {
+        if (isPasswordCorrect && isPasswordCorrect.toLowerCase() == "true") {
+            $('#divResultPasswordIsNotCorrectText').text('Password is not Correct');
+            $('#divResultPasswordIsNotCorrect').show('fade');
+        } else {
+            $('#divResultReTypePassword').hide('fade');
+        }
+
+        if (ChangePassSuccessfull && ChangePassSuccessfull.toLowerCase() == "true"){
+            $('#Modal').modal("show");
+        }
+    });
+
+</script>

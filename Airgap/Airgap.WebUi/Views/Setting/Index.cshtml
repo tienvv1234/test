@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Setting";
+}
+<div class="admin-box ari-admin-gap-box">
+    <h2 class="admin-title">AirGap Settings</h2>
+    <div class="ari-admin-page-box">
+        <div class="row">
+            <div class="col-md-5 col-xs-12">
+                <div class="admin-user-box-1">
+                    <form class="admin-user-form-1">
+                        <div class="admin-user-box-1-right">
+                            <div class="form-has-text">
+                                <p class="note">Device Name:</p>
+                                <div class="form-group">
+                                    <div class="admin-box-dashboard-1-content-select">
+                                        <div class="form-group">
+                                            <select class="form-control admin-box-dashboard-1-content-select-list">
+                                                <option>Home</option>
+                                                <option>Vaction Home</option>
+                                                <option>Rental House</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-has-text">
+                                <p class="note">Serial Number:</p>
+                                <div class="form-group">
+                                    <div class="admin-box-dashboard-1-content-select">
+                                        <div class="form-group">
+                                            <select class="form-control admin-box-dashboard-1-content-select-list">
+                                                <option>Home</option>
+                                                <option>Vaction Home</option>
+                                                <option>Rental House</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="icon-admin-user">
+                                        <a href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                                        <a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-7 col-xs-12">
+                <div class="admin-user-box-3 form-has-text">
+                    <p class="note">AirGap Location:</p>
+                    <form class="admin-user-form-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Street Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Street Name 2">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 col-xs-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="City">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <div class="admin-box-dashboard-1-content-select">
+                                    <div class="form-group">
+                                        <select class="form-control admin-box-dashboard-1-content-select-list">
+                                            <option>Select...</option>
+                                            @if (ViewBag.States != null)
+                                            {
+                                                foreach (var state in ViewBag.States)
+                                                {
+                                                    <option>@(state.Name)</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="ZIP">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="admin-profile-btn text-center">
+            <button class="admin-btn orange">Save Changes</button>
+        </div>
+    </div>
+</div>

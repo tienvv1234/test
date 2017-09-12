@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="1.16.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="1.1.2" />
+    <PackageReference Include="Sendgrid" Version="9.4.1" />
+    <PackageReference Include="Stripe.net" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Airgap.Constant\Airgap.Constant.csproj" />
+    <ProjectReference Include="..\Airgap.Data\Airgap.Data.csproj" />
+    <ProjectReference Include="..\Airgap.Entity\Airgap.Entity.csproj" />
+  </ItemGroup>
+
+</Project>

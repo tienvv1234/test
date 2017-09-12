@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <title>Airgap - @ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" /> 
+    <link href="~/css/air-admin.css" rel="stylesheet" />
+    <link href="~/css/airstyleadmin.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+</head>
+<body>
+    <div class="inner-wapper">
+        <div class="container-fluid">
+            <div class="admin-sign">
+                <div class="admin-logo text-center">
+                    <img src="~/images/logo.png">
+                </div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script src="~/js/bootstrap.js"></script>
+    <script src="~/js/bootstrap-datetimepicker.js"></script>
+    <script src="~/js/bootstrap-datetimepicker.fr.js"></script>
+    <script src="~/js/my-jquery.js"></script>
+</body>
+</html>

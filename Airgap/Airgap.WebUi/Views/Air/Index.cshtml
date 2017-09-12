@@ -1,0 +1,480 @@
+﻿@model Airgap.WebUi.Models.AirViewModels
+@using Airgap.Constant;
+@{
+    ViewData["Title"] = "Airgap";
+}
+<div class="row">
+    <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="admin-box ari-admin-gap-box">
+            <h2 class="admin-title">AirGap</h2>
+            <div class="ari-admin-gap-box-ari-gap">
+                <div class="admin-box-dashboard-1-content-select">
+                    <form class="admin-box-dashboard-1-content-select" id="formControll" method="post" action="/Air/ChangeAppliance">
+                        <div class="form-group">
+                            <select id="ddlApplianceAirGap" name="applianceId" class="form-control admin-box-dashboard-1-content-select-list">
+                                @if (Model.lAppliance != null && Model.lAppliance.Count() > 0)
+                                {
+                                    foreach (var item in Model.lAppliance)
+                                    {
+                                        if (Model.SelectedAppliance.Id == item.Id)
+                                        {
+                                            <option selected value="@(item.Id)">@(item.DeviceName)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@(item.Id)">@(item.DeviceName)</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <p class="text">Device Name: <span>@Model.SelectedAppliance.DeviceName</span></p>
+                        <p class="text">
+                            Serial Number: <span>@Model.SelectedAppliance.SerialNumber</span>
+                            <a href="@Url.Action("Index", "Setup")"><span style="color: #313131; font-size: 16px; vertical-align: middle; margin: 0px 3px 0px 7px;" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                            <a id="DeleteSerialNumber" href="#"><span style="color: #313131; font-size: 16px; vertical-align: middle; margin: 0px 3px;" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                        </p>
+                        <p class="text">O/S Version: <span>@Model.SelectedAppliance.OsVersion</span></p>
+                        <p class="text">AirGap Version: <span>@Model.SelectedAppliance.AirGapVersion</span></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-sm-12 col-xs-12">
+        <div class="admin-box ari-admin-gap-box">
+            <h2 class="admin-title">AirGap Location</h2>
+            <div class="admin-dashboard-time-note">
+                <div class="dropdown">
+                    <button id="AdminDashboardTimeNoteLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-question" aria-hidden="true"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="AdminDashboardTimeNoteLabel">
+                        <li>
+                            <p>
+                                AirGap Location must be within a few miles of the of the cell tower the appliance is connected to.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ari-admin-page-box user-admin-page-box">
+                <div class="admin-user-box-3">
+                    @using (Html.BeginForm("Index", "Air", FormMethod.Post, new { @class = "admin-user-form-3"}))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.StreetName, new { @class = "form-control", maxlength = "50", placeholder = "Street Name" })
+                            <div id="divResultStreetName" class="text-danger"><div id="divResultStreetNameText"></div></div>
+                            @Html.HiddenFor(m => m.UseAddressFromTelit)
+
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.StreetName2, new { @class = "form-control", maxlength = "50", placeholder = "Street Name 2" })
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 col-xs-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.City, new { @class = "form-control", maxlength = "50", placeholder = "City" })
+                                    <div id="divResultCity" class="text-danger"><div id="divResultCityText"></div></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <div class="admin-box-dashboard-1-content-select">
+                                    <div class="form-group" style="padding-top: 0px;">
+                                        @Html.DropDownListFor(m => m.State, Model.States, new { id = "ddlState", @class = "form-control admin-box-dashboard-1-content-select-list" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Zipcode, new { @class = "form-control", maxlength = "50", placeholder = "Zip code" })
+                                    <div id="divResultZipcode" class="text-danger"><div id="divResultZipcodeText"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="admin-sign-btn admin-sign-btn-set-passwork text-center">
+                            <button id="btnUpdateLocation" class="admin-btn orange">Update Location</button>
+                        </div>
+                    }
+                    @*<form class="admin-user-form-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control" value="@(Model.SelectedAppliance.Street1)" placeholder="Street Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" value="@(Model.SelectedAppliance.Street2)" placeholder="Street Name 2">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 col-xs-12">
+                                <div class="form-group">
+                                    <input type="text" value="@(Model.SelectedAppliance.City)" class="form-control" placeholder="City">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <div class="admin-box-dashboard-1-content-select">
+                                    <div class="form-group">
+                                        @Html.DropDownList("listStates", Model.States, new { @class = "form-control admin-box-dashboard-1-content-select-list" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" value="@(Model.SelectedAppliance.ZipCode)" placeholder="ZIP">
+                                </div>
+                            </div>
+                        </div>
+                    </form>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-8 col-sm-12 col-xs-12">
+        <div class="admin-box ari-admin-gap-box">
+            <h2 class="admin-title">Notification Preferences</h2>
+            <div class="ari-gap-box-table-1">
+                <form id="fmNotificationPreference" method="post" action="/Air/UpdateNotificationPreference">
+                    <input type="hidden" id="hdValue" name="hdValue" />
+                    <div class="table-responsive" style="max-height: 300px;">
+                        <table class="table">
+                            <thead>
+                            <th></th>
+                            <th>Network Status Change:</th>
+                            <th>Home Power Loss:</th>
+                            <th>ISP Outage:</th>
+                            </thead>
+                            <tbody>
+                                @if (Model.lAccountDTO != null && Model.lAccountDTO.Count() > 0)
+                                {
+                                    foreach (var item in Model.lAccountDTO)
+                                    {
+                                        <tr>
+                                            @if (item.PhoneNumber != null && !string.IsNullOrEmpty(item.PhoneNumber))
+                                            {
+                                                <td>@item.FirstName (@item.PhoneNumber.Substring(item.PhoneNumber.Length - 4))</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@item.FirstName</td>
+
+                                            }
+                                            <td>
+                                                <div class="ari-gap-admin-checkbox checkbox">
+                                                    <label>
+                                                        @if (item.NetWorkStatusChange != null && item.NetWorkStatusChange.HasValue && item.NetWorkStatusChange.Value)
+                                                        {
+                                                            <input type="checkbox" value="@(item.Id)-1" checked="">
+                                                        }
+                                                        else
+                                                        {
+
+                                                            <input type="checkbox" value="@(item.Id)-1">
+                                                        }
+                                                        <span class="cr"></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="ari-gap-admin-checkbox checkbox">
+                                                    <label>
+                                                        @if (item.HomePowerLoss != null && item.HomePowerLoss.HasValue && item.HomePowerLoss.Value)
+                                                        {
+                                                            <input type="checkbox" value="@(item.Id)-2" checked="">
+                                                        }
+                                                        else
+                                                        {
+
+                                                            <input type="checkbox" value="@(item.Id)-2">
+                                                        }
+                                                        <span class="cr"></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="ari-gap-admin-checkbox checkbox">
+                                                    <label>
+                                                        @if (item.ISPOutage != null && item.ISPOutage.HasValue && item.ISPOutage.Value)
+                                                        {
+                                                            <input type="checkbox" value="@(item.Id)-3" checked="">
+                                                        }
+                                                        else
+                                                        {
+
+                                                            <input type="checkbox" value="@(item.Id)-3">
+                                                        }
+                                                        <span class="cr"></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <div class="admin-sign-btn admin-sign-btn-set-passwork text-center">
+                            <button id="btnUpdateNotificationPreference" class="admin-btn orange">Update Notification Preference</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="admin-box ari-admin-gap-box">
+            <h2 class="admin-title">AirGap Trust Setting</h2>
+            <div class="admin-dashboard-time-note">
+                <div class="dropdown">
+                    <button id="AdminDashboardTimeNoteLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-question" aria-hidden="true"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="AdminDashboardTimeNoteLabel">
+                        <li>
+                            <p>
+                                You can adjust your trust setting on the Airgap appliance to set privacy restrictions.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ari-admin-box-2">
+                <div class="ari-admin-box-2-list">
+                    @for (int i = 0; i < 4; i++)
+                    {
+                        if (Model.SelectedAppliance.TrustLevel == i)
+                        {
+                            <div class="ari-admin-box-2-list-item active">
+                                <div class="ari-admin-box-2-list-content">
+                                    <p class="text-1">Level @(i)</p>
+                                    @switch (i)
+                                    {
+                                        case 0:
+                                            <p class="text-2">
+                                                All communications disabled.
+                                                AirGap schedule timer function only
+                                            </p>
+                                            break;
+                                        case 1:
+                                            <p class="text-2">
+                                                Cellular communications only. WiFi disabled.
+                                                AirGap can not report WiFi or ISP status.
+                                            </p>
+                                            break;
+                                        case 2:
+                                            <p class="text-2">
+                                                Cellular communications only. WiFi enabled, monitor only. No LAN connection.
+                                                AirGap can report WiFi status, but can not report ISP staus.
+                                            </p>
+                                            break;
+                                        case 3:
+                                            <p class="text-2">
+                                                Cellular and WiFi enabled. AirGap uses LAN connection when available.
+                                                AirGap can report WiFi and ISP staus.
+                                            </p>
+                                            break;
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="ari-admin-box-2-list-item">
+                                <div class="ari-admin-box-2-list-content">
+                                    <p class="text-1">Level @(i)</p>
+                                    @switch (i)
+                                    {
+                                        case 0:
+                                            <p class="text-2">
+                                                All communications disabled.
+                                                AirGap schedule timer function only
+                                            </p>
+                                            break;
+                                        case 1:
+                                            <p class="text-2">
+                                                Cellular communications only. WiFi disabled.
+                                                AirGap can not report WiFi or ISP status.
+                                            </p>
+                                            break;
+                                        case 2:
+                                            <p class="text-2">
+                                                Cellular communications only. WiFi enabled, monitor only. No LAN connection.
+                                                AirGap can report WiFi status, but can not report ISP staus.
+                                            </p>
+                                            break;
+                                        case 3:
+                                            <p class="text-2">
+                                                Cellular and WiFi enabled. AirGap uses LAN connection when available.
+                                                AirGap can report WiFi and ISP staus.
+                                            </p>
+                                            break;
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="LoadingImage-fullWidth">
+    <img src="~/images/ajax-loader-big.gif" />
+</div>
+
+<div id="scrollhere" class="admin-box ari-admin-gap-box">
+    <h2 class="admin-title">AirGap Schedule Timer Settings</h2>
+    <div class="air-gap-admin-timer-box">
+        <div class="air-gap-admin-timer">
+            <div class="air-gap-admin-timer-am-pm">
+                <span class="col col-50">AM</span>
+                <span class="col col-50">PM</span>
+            </div>
+        </div>
+        <div class="air-gap-admin-timer">
+            <span class="note">M - F</span>
+            <div class="air-gap-admin-timer-am-pm">
+                @for (int i = 1; i <= 24; i++)
+                {
+                    if (Model.lTimerSchedule != null && Model.lTimerSchedule.Count > 0 && Model.lTimerSchedule.ContainsKey(TimerType.Weekdays) && Model.lTimerSchedule[TimerType.Weekdays].Any(x => x == i.ToString()))
+                    {
+                        <span class="col col-24 blue">@(i > 12 ? i - 12 : i)</span>
+                    }
+                    else
+                    {
+                        <span class="col col-24 grey">@(i > 12 ? i - 12 : i)</span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="air-gap-admin-timer">
+            <span class="note">Saturday</span>
+            <div class="air-gap-admin-timer-am-pm">
+                @for (int i = 1; i <= 24; i++)
+                {
+                    if (Model.lTimerSchedule != null && Model.lTimerSchedule.Count > 0 && Model.lTimerSchedule.ContainsKey(TimerType.Weekends) && Model.lTimerSchedule[TimerType.Weekends].Any(x => x == i.ToString()))
+                    {
+                        <span class="col col-24 blue">@(i > 12 ? i - 12 : i)</span>
+                    }
+                    else
+                    {
+                        <span class="col col-24 grey">@(i > 12 ? i - 12 : i)</span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="air-gap-admin-timer">
+            <span class="note">Sunday</span>
+            <div class="air-gap-admin-timer-am-pm">
+                @for (int i = 1; i <= 24; i++)
+                {
+                    if (Model.lTimerSchedule != null && Model.lTimerSchedule.Count > 0 && Model.lTimerSchedule.ContainsKey(TimerType.Weekends) && Model.lTimerSchedule[TimerType.Weekends].Any(x => x == i.ToString()))
+                    {
+                        <span class="col col-24 blue">@(i > 12 ? i - 12 : i)</span>
+                    }
+                    else
+                    {
+                        <span class="col col-24 grey">@(i > 12 ? i - 12 : i)</span>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-note-text" id="ModalConfirmDeletion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                Would you like to delete this serial number?
+                WARNING: This will remove the airgap appliance from your account. Are you sure you want to continue?
+            </div>
+            <div class="modal-footer">
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <button type="button" class="admin-btn orange" data-dismiss="modal" onclick="deleteSerialNumber(@(Model.SelectedAppliance.Id))">Delete</button>
+                    <button type="button" class="admin-btn orange" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-note-text" id="ModalLocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                Address entered does not match the reported system location. Please enter a new location or you can use the
+                reported system location. (You can edit this later)
+            </div>
+            <div class="modal-footer">
+                <div class="admin-sign-btn admin-sign-btn-orange">
+                    <button type="button" class="admin-btn orange" data-dismiss="modal">Edit Location Information</button>
+                    <button id="btnUseTelit" class="admin-btn orange">Use Reported System Location</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     var confirmaddress = "@(ViewBag.confirmAddress)"
+    $(document).ready(function () {
+        if (window.location.hash != null && window.location.hash != '')
+            $('body').animate({
+                scrollTop: $(window.location.hash).offset().top
+            });
+
+
+        $('#btnUpdateLocation').click(function () { 
+            var streetName = $('#StreetName').val().trim();
+            var city = $('#City').val().trim();
+            var zipcode = $('#Zipcode').val().trim();
+
+            if (!streetName) {
+                $('#divResultStreetNameText').text('Street Name is required');
+                $('#divResultStreetName').show('fade');
+                return false;
+            } else {
+                $('#divResultStreetName').hide('fade');
+            }
+
+            if (!city) {
+                $('#divResultCityText').text('City is required');
+                $('#divResultCity').show('fade');
+                return false;
+            } else {
+                $('#divResultCity').hide('fade');
+            }
+
+            if (!zipcode) {
+                $('#divResultZipcodeText').text('Zipcode is required');
+                $('#divResultZipcode').show('fade');
+                return false;
+            } else {
+                $('#divResultZipcode').hide('fade');
+            }
+        })
+
+
+
+        if (confirmaddress.toLowerCase() == "true") {
+            $("#ModalLocation").modal("show");
+        }
+        $("#UseAddressFromTelit").val("");
+
+        $("#btnUseTelit").click(function () {
+            $("#UseAddressFromTelit").val("UseTelit");
+            $("#btnUpdateLocation").click();
+            $("#UseAddressFromTelit").val("");
+        })
+
+        $('#DeleteSerialNumber').click(function () {
+            $('#ModalConfirmDeletion').modal("show");
+        });
+    });
+</script>

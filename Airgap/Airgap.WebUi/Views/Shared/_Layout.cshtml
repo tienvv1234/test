@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <title>Airgap - @ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/air-admin.css" rel="stylesheet" />
+    <link href="~/css/airstyleadmin.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <div class="inner-wapper">
+        <div class="container-fluid">
+            <nav class="navbar navbar-inverse admin-menu">
+                <div class="navbar-header">
+                    <h1 class="airgap-title-page">Dashboard</h1>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <button type="button" class="btn-close-menu"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    <ul class="nav navbar-nav">
+                        <li class="@(ViewBag.ActiveMenu == "dashboard" ? "active" : "")">
+                            <a class="admin-menu-item" asp-area="" asp-controller="Home" asp-action="Index">
+                                <div class="image text-center">
+                                    <img src="~/images/dashboard.png">
+                                </div>
+                                <p class="text">Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="@(ViewBag.ActiveMenu == "air" ? "active" : "")">
+                            <a class="admin-menu-item" asp-area="" asp-controller="Air" asp-action="Index">
+                                <div class="image text-center">
+                                    <img src="~/images/air-gap.png">
+                                </div>
+                                <p class="text">AirGap</p>
+                            </a>
+                        </li>
+                        <li class="@(ViewBag.ActiveMenu == "profile" ? "active" : "")">
+                            <a class="admin-menu-item" asp-area="" asp-controller="Profile" asp-action="Index">
+                                <div class="image text-center">
+                                    <img src="~/images/profile.png">
+                                </div>
+                                <p class="text">Profile</p>
+                            </a>
+                        </li>
+                        <li class="@(ViewBag.ActiveMenu == "user" ? "active" : "")">
+                            <a class="admin-menu-item" asp-area="" asp-controller="User" asp-action="Index">
+                                <div class="image text-center">
+                                    <img src="~/images/users.png">
+                                </div>
+                                <p class="text">Users</p>
+                            </a>
+                        </li>
+                        <li class="@(ViewBag.ActiveMenu == "LogOut" ? "active" : "")">
+                            <a class="admin-menu-item" asp-area="" asp-controller="@Url.Action("LogOff", "Login")" asp-action="Index">
+                                <div class="image text-center">
+                                    <img src="~/images/logout.png">
+                                </div>
+                                <p class="text">LogOut</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="admin-menu-item admin-menu-item-logo" asp-area="" asp-controller="@Url.Action("Index", "Home")">
+                                <div class="image text-center">
+                                    <img src="~/images/airgaplogo_monochrome.png">
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-mobi">
+                </div>
+            </nav>
+            <div class="admin-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script src="~/js/bootstrap.js"></script>
+    <script src="~/js/bootstrap-datetimepicker.js"></script>
+    <script src="~/js/bootstrap-datetimepicker.fr.js"></script>
+    <script src="~/js/my-jquery.js"></script>
+    <script src="~/lib/plugin/moment.js"></script>
+    <script src="~/lib/plugin/moment-timezone-with-data-2012-2022.min.js"></script>
+</body>
+</html>

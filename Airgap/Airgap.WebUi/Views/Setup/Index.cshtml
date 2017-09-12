@@ -1,0 +1,101 @@
+@model Airgap.WebUi.Models.SetUpViewModels
+@{
+    Layout = "_LayoutLogin";
+    ViewData["Title"] = "Setup";
+}
+
+<div class="admin-sign-content admin-passwork-content start-using-airgap">
+    @using (Html.BeginForm("Index", "Setup", FormMethod.Post, new { @class = "admin-passwork-box text-left", style = "padding-top: 30px;" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div class="form-group">
+                    <label class="text-lable-login">Enter AirGap serial number</label>
+                    @Html.TextBoxFor(m => m.SerialNumber, new { @class = "form-control", maxlength = "50", placeholder = "Serial Number" })
+                    @Html.HiddenFor(m => m.UseAddressFromTelit)
+                    @Html.ValidationMessageFor(m => m.SerialNumber, "", new { @class = "text-danger" })
+                    @if (ViewBag.MessageError != null)
+                    {
+                        <p class="text-danger">
+                            @ViewBag.MessageError
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="text-lable-login">AirGap Location</label>
+            @Html.TextBoxFor(m => m.StreetName, new { @class = "form-control", maxlength = "50", placeholder = "Street Name" })
+            @Html.ValidationMessageFor(m => m.StreetName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.StreetName2, new { @class = "form-control", maxlength = "50", placeholder = "Street Name 2" })
+        </div>
+        <div class="row">
+            <div class="col-md-5 col-xs-12">
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control", maxlength = "50", placeholder = "City" })
+                    @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12">
+                <div class="admin-box-dashboard-1-content-select">
+                    <div class="form-group" style="padding-top: 0px;">
+                        @Html.DropDownListFor(m => m.State, Model.States, new { id = "ddlState", @class = "form-control admin-box-dashboard-1-content-select-list" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Zipcode, new { @class = "form-control", maxlength = "50", placeholder = "Zip code" })
+                    @Html.ValidationMessageFor(m => m.Zipcode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="admin-sign-btn admin-sign-btn-set-passwork text-center">
+            <button id="btnStartUsingAirGap" class="admin-btn orange">Start Using AirGap</button><br />
+            @if (ViewBag.BackButton != null && ViewBag.BackButton)
+            {
+                <a href="@Url.Action("Index", "Air")" class="admin-btn blue" style="display: inline-block; margin-top: 15px; text-decoration: none">Back To AirGap Page</a>
+            }
+            
+        </div>
+    }
+
+    <div class="modal fade modal-note-text" id="ModalLocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    Address entered does not match the reported system location. Please enter a new location or you can use the 
+                    reported system location. (You can edit this later)
+                </div>
+                <div class="modal-footer">
+                    <div class="admin-sign-btn admin-sign-btn-orange">
+                            <button type="button" class="admin-btn orange" data-dismiss="modal" style="margin-bottom: 20px;">Edit Location Information</button>
+                            <button id="btnUseTelit" class="admin-btn orange">Use Reported System Location</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var confirmaddress = "@(ViewBag.confirmAddress)"
+    $(document).ready(function () {
+        if (confirmaddress.toLowerCase() == "true") {
+            $("#ModalLocation").modal("show");
+        }
+        $("#UseAddressFromTelit").val("");
+
+        $("#btnUseTelit").click(function () {
+            $("#UseAddressFromTelit").val("UseTelit");
+            $("#btnStartUsingAirGap").click();
+            $("#UseAddressFromTelit").val("");
+        })
+
+    });
+</script>

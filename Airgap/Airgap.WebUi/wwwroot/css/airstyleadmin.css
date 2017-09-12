@@ -1,0 +1,252 @@
+﻿.has-checked-show-text {
+    position: relative;
+}
+
+.has-checked-show-text-content {
+    display: none;
+    position: absolute;
+    top: 0px;
+    height: 0px;
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+
+    .has-checked-show-text-content p {
+        color: #fff;
+        font-size: 26px;
+        font-weight: bold;
+        position: absolute;
+        top: 50%;
+        margin-top: -7px;
+        width: 100%;
+        text-align: center;
+        padding-top: 0px;
+    }
+.admin-dashboard-box-has-checked.admin-dashboard-box-2 {
+    padding-bottom: 0px;
+}
+.admin-dashboard-box-has-checked .has-checked-show-text {
+    padding-bottom: 15px;
+}
+
+/* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+#googleapi {
+    width: 100%;
+}
+.text-lable-login {
+    font-size: 20px;
+    color: #4a4a4a;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.admin-user-box-3 .admin-user-form-3  {
+    padding-left: 0px;
+}
+.ari-admin-page-box.user-admin-page-box {
+    padding: 40px 60px 18px 60px;
+}
+.admin-dashboard-1-toggle.value-on .admin-dashboard-1-toggle-check-box .off,
+.admin-dashboard-1-toggle.value-on .admin-dashboard-1-toggle-check-box .on {
+    color: #808080;
+}
+.admin-dashboard-1-toggle.value-on .admin-dashboard-1-toggle-check-box {
+    background-color: #808080;
+}
+.admin-dashboard-1-toggle-check-box {
+    background-color: #33ccff;
+}
+.admin-dashboard-1-toggle-check-box .on, .admin-dashboard-1-toggle-check-box .off {
+    color: #33ccff;
+}
+.admin-dashboard-table .table > tbody > tr > td {
+    width: 25%;
+}
+.navbar-inverse .navbar-nav .admin-menu-item.admin-menu-item-logo .image {
+    max-width: 50px;
+}
+select.form-control {
+    background-image: url('../images/arrow-select.png');
+}
+.admin-dashboard-on-off-grey .admin-dashboard-1-toggle-check-box .off,
+.admin-dashboard-on-off-grey.off-grey .admin-dashboard-1-toggle-check-box .on {
+    color: #fff !important;
+}
+.geofence-img {
+    width: 100%;
+    height: 298px;
+}
+.admin-dashboard-time-image-box .img-2 {
+    display: inherit !important;
+}
+.images-on-off {
+    padding-left: 30px;
+    max-width: 138px;
+    margin: -25px auto 0px;
+    padding-right: 10px;
+}
+.information-title {
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 40px;
+}
+@media (max-width: 1699px) {
+    .geofence-img {
+        height: 240px;
+    }
+    .admin-dashboard-time {
+        min-height: 117px;
+    }
+    .images-on-off {
+        padding-left: 25px;
+        max-width: 110px;
+        margin: -15px auto 0px;
+        padding-right: 15px;
+    }
+}
+@media (min-width: 768px) {
+    .start-using-airgap .row, .admin-user-box-3 .admin-user-form-3 .row {
+        margin-right: -10px;
+        margin-left: -10px;
+    }
+
+    #ModalLocation.modal-note-text .modal-dialog {
+        min-width: 550px;
+    }
+
+    .navbar-inverse .navbar-nav .admin-menu-item.admin-menu-item-logo .image {
+        max-width: 70px;
+    }
+}
+
+.admin-dashboard-on-off-grey {
+    margin-bottom: 25px;
+}
+
+    .admin-dashboard-on-off-grey .admin-dashboard-1-toggle-check-box {
+        background-color: #808080;
+    }
+
+        .admin-dashboard-on-off-grey .admin-dashboard-1-toggle-check-box .on, .admin-dashboard-on-off-grey .admin-dashboard-1-toggle-check-box .off {
+            color: #808080;
+        }
+
+    .admin-dashboard-on-off-grey.off-grey .admin-dashboard-1-toggle-check-box .white {
+        left: auto;
+        right: 4px;
+    }
+.images-on-off img {
+    max-width: 100%;
+}
+.admin-dashboard-time {
+    min-height: 127px;
+}
+
+#LoadingImage {
+    display: none;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 0px;
+    min-height: 52px;
+    line-height: 52px;
+    background-color: #fff;
+    z-index: 100;
+}
+
+#LoadingImage_signin {
+    display: none;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 0px;
+    min-height: 52px;
+    line-height: 52px;
+    background-color: #fff;
+    z-index: 100;
+}
+#LoadingImage_signup {
+    display: none;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 0px;
+    min-height: 52px;
+    line-height: 52px;
+    background-color: #fff;
+    z-index: 100;
+}
+#LoadingImage-fullWidth {
+    position: fixed;
+    z-index: 999999;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    text-align: center;
+    padding-top: 50vh;
+    top: 0px;
+    left: 0px;
+    display: none;
+}
+
+#LoadingImagePurchase {
+    display: none;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 0px;
+    min-height: 52px;
+    line-height: 52px;
+    background-color: #fff;
+    z-index: 100;
+}
+
+#LoadingImage-fullWidth img {
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+}
+.admin-dashboard-table .table > tbody {
+    overflow-x: inherit !important;
+}
+.admin-box-btn .btn .text.text-2 {
+    left: 0px;
+    color: #c34741;
+}
+.paymall-list-apple-btn {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 10px auto;
+    display: inherit;
+}
+.air-gap-admin-timer-am-pm .col.grey {
+    background-color: #c6c6c6;
+    border-color: #c6c6c6;
+}
+.air-gap-admin-timer-am-pm .col.blue {
+    background-color: #33ccff;
+    border-color: #33ccff;
+}
+
+.notare input[type=number]::-webkit-inner-spin-button,
+.notare input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.notare input[type=number] {
+    -moz-appearance: textfield;
+}
+
+@media (min-width: 768px) {
+    #ModalCancelSuccess .modal-dialog {
+        min-width: 650px !important;
+    }
+}
+
