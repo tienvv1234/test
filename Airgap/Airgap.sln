@@ -1,21 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airgap.WebApi", "Airgap.WebApi\Airgap.WebApi.csproj", "{92ECEB72-5919-4EAA-8B63-AE734247D9F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airgap.WebUi", "Airgap.WebUi\Airgap.WebUi.csproj", "{249B5873-CF54-4D41-929F-0918CCDF4B0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airgap.WebUi", "Airgap.WebUi\Airgap.WebUi.csproj", "{249B5873-CF54-4D41-929F-0918CCDF4B0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airgap.Constant", "Airgap.Constant\Airgap.Constant.csproj", "{AC15E52A-302C-45F4-966F-EF3290B5AD0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airgap.Constant", "Airgap.Constant\Airgap.Constant.csproj", "{AC15E52A-302C-45F4-966F-EF3290B5AD0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airgap.Entity", "Airgap.Entity\Airgap.Entity.csproj", "{7A3CC1FB-C5A9-4B77-9C48-044808297944}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airgap.Entity", "Airgap.Entity\Airgap.Entity.csproj", "{7A3CC1FB-C5A9-4B77-9C48-044808297944}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airgap.Data", "Airgap.Data\Airgap.Data.csproj", "{223CF8C8-881B-423B-B548-99326F6DDCA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airgap.Data", "Airgap.Data\Airgap.Data.csproj", "{223CF8C8-881B-423B-B548-99326F6DDCA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airgap.Telit", "Airgap.Telit\Airgap.Telit.csproj", "{55A4ADA7-C731-437A-BCCE-13E1EE6F122A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airgap.Telit", "Airgap.Telit\Airgap.Telit.csproj", "{55A4ADA7-C731-437A-BCCE-13E1EE6F122A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airgap.Service", "Airgap.Service\Airgap.Service.csproj", "{5C5D3D07-C2A0-43EF-B412-23F0CD1B1FC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airgap.Service", "Airgap.Service\Airgap.Service.csproj", "{5C5D3D07-C2A0-43EF-B412-23F0CD1B1FC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{92ECEB72-5919-4EAA-8B63-AE734247D9F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92ECEB72-5919-4EAA-8B63-AE734247D9F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92ECEB72-5919-4EAA-8B63-AE734247D9F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92ECEB72-5919-4EAA-8B63-AE734247D9F7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{249B5873-CF54-4D41-929F-0918CCDF4B0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{249B5873-CF54-4D41-929F-0918CCDF4B0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{249B5873-CF54-4D41-929F-0918CCDF4B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
