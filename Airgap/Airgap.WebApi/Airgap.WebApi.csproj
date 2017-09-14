@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\AirGap - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\AirgapApi - Web Deploy.pubxml" />
   </ItemGroup>
 
