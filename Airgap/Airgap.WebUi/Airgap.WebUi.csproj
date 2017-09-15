@@ -12,9 +12,9 @@
     <DefineConstants>DEBUG;TRACE;RELEASE;NETCOREAPP1_1</DefineConstants>
   </PropertyGroup>
 
-  <!--<ItemGroup>
+  <ItemGroup>
     <Content Remove="Views\Home\CheckSerialNumber.cshtml" />
-  </ItemGroup>-->
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\AirgapWebUi - Web Deploy.pubxml" />
